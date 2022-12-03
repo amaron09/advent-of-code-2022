@@ -82,20 +82,19 @@ fs.readFile('data.txt', (error, data) => {
 
   // Part 2
 
-  const sum2 = splittedData.reduce((acc, curr, index) => {
-    const [first, second] = splitAtIndex(curr, curr.length / 2);
-    const firstCharacters = first.split('');
-    const secondCharacters = second.split('');
-
-    let breakLoop = false
-    const sharedCharacters = firstCharacters.reduce((acc, curr) => {
-      if (secondCharacters.includes(curr) && !breakLoop) {
-        breakLoop = true
-        return priorityValue[curr]
-      }
-      return acc
-    }, 0)
-    return acc + sharedCharacters;
+  const sum2 = splittedData.reduce((acc, curr, index, array) => {   
+    if (index % 3 === 0) {
+      let breakLoop = false
+      const sharedCharacters = array[index].split('').reduce((acc, curr) => {
+        if (array[index + 1].includes(curr) && array[index + 2].includes(curr) && !breakLoop) {
+          breakLoop = true
+          return priorityValue[curr]
+        }
+        return acc
+      }, 0)
+      return acc + sharedCharacters
+    }
+    return acc
   }, 0)
-
+  console.log("sum2", sum2)
 })
